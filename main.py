@@ -45,7 +45,7 @@ def main():
             leveldesc=args.description,
             lvlstr=level_string,
             audio_track=0,
-            song_id=0, 
+            song_id=args.songid, 
             ver=args.gameversion,
             unlisted=args.mode,
             level_version=args.levelversion
