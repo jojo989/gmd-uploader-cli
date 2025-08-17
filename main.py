@@ -47,7 +47,8 @@ def main():
             audio_track=0,
             song_id=0, 
             ver=args.gameversion,
-            unlisted=args.mode
+            unlisted=args.mode,
+            level_version=args.levelversion
         ))
         print(f"Level ID: {result}")
     except Exception as e:
