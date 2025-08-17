@@ -16,7 +16,7 @@ def main():
     parser.add_argument('-pwd', '--password', dest='password', required=True, help="Password")
     parser.add_argument('-m', '--mode', type=int, default=0, choices=[0, 1, 2], 
                         help="Visibility mode: 0 (public), 1 (unlisted), 2 (friends only)")
-    parser.add_argument('--songid', help="Newgrounds song ID", default=1)
+    parser.add_argument('--songid', help="Newgrounds song ID", default=get_gmd_value_by_key(gmd_content, 'k35'))
 
     args = parser.parse_args()
     if not args.gmd.lower().endswith('.gmd'):
