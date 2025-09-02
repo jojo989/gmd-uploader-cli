@@ -1,4 +1,5 @@
-# GMD Uploader CLI ##### [check gd docs](https://wyliemaster.github.io/gddocs)
+# GMD Uploader CLI 
+##### [check gd docs](https://wyliemaster.github.io/gddocs)
 
 A command-line interface (CLI) tool for uploading Geometry Dash levels directly from a `.gmd` file to the official servers.
 
