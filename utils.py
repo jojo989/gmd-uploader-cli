@@ -79,7 +79,7 @@ def decode_level(data):
     decompressed = zlib.decompress(base64_decoded)
     return decompressed.decode('utf-8')
 
-async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1):
+async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1, objects: int =1):
     try:
         aid = await account_id(username)
         gjp = generate_gjp2(password)
@@ -105,7 +105,7 @@ async def upload_level(username, password, levelname, leveldesc="", lvlstr="", a
             'original': 0,
             'twoPlayer': 0,
             'songID': song_id,
-            'objects': 1,
+            'objects': objects,
             'coins': 0,
             'requestedStars': 0,
             'unlisted': unlisted,
@@ -142,13 +142,16 @@ def parse_gmd_file(xml_content: str) -> GMDData:
                 value_elem = value_elem.nextSibling
             if value_elem and value_elem.firstChild:
                 value = value_elem.firstChild.nodeValue
-                try:
-                    if value.isdigit():
-                        result[key] = int(value)
-                    else:
-                        result[key] = float(value)
-                except ValueError:
-                    result[key] = value
+                if isinstance(value, str):  # Ensure value is a string
+                    try:
+                        if value.isdigit():
+                            result[key] = int(value)
+                        else:
+                            result[key] = float(value)
+                    except ValueError:
+                        result[key] = value
+                else:
+                    result[key] = value  # Handle non-string values (though unlikely with nodeValue)
             else:
                 result[key] = None
 
