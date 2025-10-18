@@ -79,7 +79,7 @@ def decode_level(data):
     decompressed = zlib.decompress(base64_decoded)
     return decompressed.decode('utf-8')
 
-async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1, objects: int =1):
+async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1, objects: int =1, level_id: int =0):
     try:
         aid = await account_id(username)
         gjp = generate_gjp2(password)
@@ -90,7 +90,7 @@ async def upload_level(username, password, levelname, leveldesc="", lvlstr="", a
             'accountID': aid,
             'gjp2': gjp,
             'userName': username,
-            'levelID': 0,
+            'levelID': level_id,
             'levelName': levelname,
             'levelDesc': base64.b64encode(leveldesc.encode('utf-8'))
                          .decode('utf-8')
