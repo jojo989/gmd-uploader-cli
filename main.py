@@ -42,7 +42,7 @@ def main():
         return
 
     gmd_arg_map = [
-        ('songid', 'k35', int, 0),
+        ('songid', 'k45', int, 0),
         ('levelname', 'k2', str, "wtf xd"),
         ('description', 'k3', str, ""),
         ('id', 'k1', int, 0),
