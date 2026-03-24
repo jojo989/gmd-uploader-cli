@@ -1,7 +1,7 @@
 import argparse
 import asyncio
 import os
-from utils import upload_level, get_gmd_value_by_key
+from utils import upload_level, get_gmd_value_by_key, parse_gmd_file
 import base64
 from typing import Any
 
@@ -27,6 +27,8 @@ def main():
     parser.add_argument('-pwd', '--password', dest='password', required=True, help="Password")
     parser.add_argument('-m', '--mode', type=int, default=0, choices=[0, 1, 2], 
                         help="Visibility mode: 0 (public), 1 (unlisted), 2 (friends only)")
+    parser.add_argument('--level_length', '-l', type=int, default=0, choices=[0, 1, 2, 3, 4], 
+                        help="Level length: 0 (Tiny), 1 (Short), 2 (Medium), 3 (Long), 4 (XL)")
     args = parser.parse_args()
     if not args.gmd.lower().endswith('.gmd'):
         print(f"Error: '{args.gmd}' is not a .gmd file. Please provide a valid .gmd file.")
@@ -40,7 +42,6 @@ def main():
     except Exception as e:
         print(f"Error reading .gmd file: {e}")
         return
-
     gmd_arg_map = [
         ('songid', 'k45', int, 0),
         ('levelname', 'k2', str, "wtf xd"),
@@ -87,6 +88,7 @@ def main():
             unlisted=args.mode,
             level_version=args.levelversion,
             objects=objects,
+            level_length=args.level_length
         ))
         print(f"Level ID: {result}")
     except Exception as e:

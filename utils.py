@@ -79,12 +79,11 @@ def decode_level(data):
     decompressed = zlib.decompress(base64_decoded)
     return decompressed.decode('utf-8')
 
-async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1, objects: int =1, level_id: int =0):
+async def upload_level(username, password, levelname, leveldesc="", lvlstr="", audio_track=0, song_id=0, ver=22, unlisted=0, level_version=1, objects: int =1, level_id: int =0, level_length: int =0):
     try:
         aid = await account_id(username)
         gjp = generate_gjp2(password)
         seed2 = generate_seed(lvlstr)
-        
         data = urllib.parse.urlencode({
             'gameVersion': ver,
             'accountID': aid,
@@ -98,7 +97,7 @@ async def upload_level(username, password, levelname, leveldesc="", lvlstr="", a
                          .replace('/', '_')
                          .rstrip('='),
             'levelVersion': level_version,
-            'levelLength': 0,
+            'levelLength': level_length,
             'audioTrack': audio_track,
             'auto': 0,
             'password': 0,
@@ -154,7 +153,6 @@ def parse_gmd_file(xml_content: str) -> GMDData:
                     result[key] = value  # Handle non-string values (though unlikely with nodeValue)
             else:
                 result[key] = None
-
     return result
 
 def get_gmd_value_by_key(xml_content: str, key_name: str) -> Optional[str]:
@@ -168,5 +166,4 @@ def get_gmd_value_by_key(xml_content: str, key_name: str) -> Optional[str]:
             while value_elem and value_elem.nodeType != minidom.Element.ELEMENT_NODE:
                 value_elem = value_elem.nextSibling
             return value_elem.firstChild.nodeValue if value_elem and value_elem.firstChild else None
-
     return None
