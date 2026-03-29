@@ -1,4 +1,4 @@
-name: Rust Compile Check
+name: compile
 
 on:
   push:
@@ -13,21 +13,25 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # This triggers two separate jobs: one for Ubuntu and one for Windows
         os: [ubuntu-latest, windows-latest]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@stable
 
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@v2
         with:
-          # This ensures dependencies aren't re-downloaded/re-compiled every time
           key: ${{ matrix.os }}
 
-      - name: Build project
+      - name: Build
         run: cargo build --release --verbose
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.os }}
+          path: |
+            target/release/gmd-uploader-cli
+            target/release/gmd-uploader-cli.exe
+          if-no-files-found: error
